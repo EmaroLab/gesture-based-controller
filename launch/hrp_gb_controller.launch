@@ -1,4 +1,11 @@
 <launch>
+
+  <!--Coefficients to map linear accelerations into linear and angular velocities-->
+  <!--husqvarna = [0.05,0.05]| miro = [50, 0.25]-->
+  
+  <param name = "linear_coefficient" value="0.05" />
+  <param name = "angular_coefficient" value="0.05" />
+
   <node pkg="gesture_based_controller" type="gb_controller.py" name="gb_controller" output="screen">
     <remap from="/cmd_vel" to="/cmd_vel"/>
     <remap from="/cmd_mode" to="/cmd_mode"/>
