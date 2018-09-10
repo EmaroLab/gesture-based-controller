@@ -18,9 +18,12 @@ In order to succesfully run the code, you should have installed [ROS](http://wik
 
 **_gb_controller_** : It performs a linear mapping of accelerations recorded by an IMU sensor to the velocity commands for a mobile robot.
 
+The mapping coefficients depend on the robot to control and they can be set from launch file.
+
+
 ```python
-    twist.linear.x = x * 0.05
-    twist.angular.z = y * 0.05
+    twist.linear.x = x * linear_coefficient
+    twist.angular.z = y * angular_coefficient
 ```
 
 ## Author
