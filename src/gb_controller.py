@@ -11,6 +11,10 @@ class GestureController(object):
     def init(self):
         self.update_rate = 10   # Node frquency (Hz)
 
+        #Coefficients to map linear accelerations into linear and angular velocities
+        self.linear_coefficent = rospy.get_param ('linear_coefficient', 0.05)
+        self.angular_coefficent = rospy.get_param ('angular_coefficient', 0.05)
+
         #Last acelleration data received
         self.last_acc = [0,0,0]
         self.last_time = 0
@@ -60,8 +64,8 @@ class GestureController(object):
         if rospy.is_shutdown():
             return
         twist = Twist()
-        twist.linear.x = self.last_acc[0] * 0.05
-        twist.angular.z = self.last_acc[1] * 0.05
+        twist.linear.x = self.last_acc[0] * self.linear_coefficent
+        twist.angular.z = self.last_acc[1] * self.angular_coefficent
         self.pub_twist.publish(twist)
 
 
