@@ -61,7 +61,7 @@ class GestureController(object):
             return
         twist = Twist()
         twist.linear.x = self.last_acc[0] * 0.05
-        twist.angular.z = self.last_acc[2] * 0.05
+        twist.angular.z = self.last_acc[1] * 0.05
         self.pub_twist.publish(twist)
 
 
