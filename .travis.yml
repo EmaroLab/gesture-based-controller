@@ -6,29 +6,21 @@ branches:
   only:
     - master
 
-# Environment variables
-env:
-  global:
-    - GH_REPO_NAME: gesture-based-controller
-    - DOXYFILE: $TRAVIS_BUILD_DIR/.
-    - GH_REPO_REF: github.com/EmaroLab/gesture-based-controller.git
-
 # Install dependencies
 addons:
   apt:
     packages:
       - doxygen
-      - doxygen-doc
-      - doxygen-latex
-      - doxygen-gui
-      - graphviz
 
 # Build your code e.g. by calling make
 script:
   - doxygen Doxyfile
 
 # Generate and deploy documentation
-after_success:
-  - cd $TRAVIS_BUILD_DIR
-  - chmod +x generateDocumentationAndDeploy.sh
-  - ./generateDocumentationAndDeploy.sh
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: docs/html
+  github_token: $GH_REPO_TOKEN
+  on:
+    branch: master
