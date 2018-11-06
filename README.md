@@ -25,6 +25,9 @@ The mapping coefficients depend on the robot to control and they can be set from
     twist.linear.x = x * linear_coefficient
     twist.angular.z = y * angular_coefficient
 ```
+## Documentation
+
+[emarolab.github.io/gesture-based-controller/](https://emarolab.github.io/gesture-based-controller/)
 
 ## Author
 
