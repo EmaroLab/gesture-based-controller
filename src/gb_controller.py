@@ -14,17 +14,17 @@ class GestureController(object):
 
         """
 
-        self.update_rate = 10   # Node frquency (Hz)
+        self.update_rate = 10   """ Node frquency (Hz)"""
 
-        #Coefficients to map linear accelerations into linear and angular velocities
+        """Coefficients to map linear accelerations into linear and angular velocities"""
         self.linear_coefficent = rospy.get_param ('linear_coefficient', 0.05)
         self.angular_coefficent = rospy.get_param ('angular_coefficient', 0.05)
 
-        #Last acelleration data received
+        """Last acelleration data received"""
         self.last_acc = [0,0,0]
         self.last_time = 0
 
-        # Setup publishers & subscriber
+        """Setup publishers & subscriber"""
         self.pub_twist = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
         self.pub_mode = rospy.Publisher('/cmd_mode', UInt16, queue_size=1)
         rospy.Subscriber('/inertial', Imu, self.callback_continuos_control)
@@ -36,7 +36,7 @@ class GestureController(object):
         self.last_acc[2] = data.linear_acceleration.z
         self.last_time = data.header.stamp.secs
 
-    # Controller starter
+    """ Controller starter"""
     def run(self):
         self.init()
         r = rospy.Rate(self.update_rate)
@@ -58,13 +58,13 @@ class GestureController(object):
     def acceleration_reset(self):
         self.last_acc = [0,0,0]
 
-    # Shutdown handler
+    """Shutdown handler"""
     def reset(self):
         print "\n"
         rospy.loginfo("RESETTING VELOCITY COMMANDS ON SHUTDOWN")
         self.update()
 
-    # Mapping of acceleration to robot angular and linear velocities
+    """Mapping of acceleration to robot angular and linear velocities"""
     def update(self):
         if rospy.is_shutdown():
             return
