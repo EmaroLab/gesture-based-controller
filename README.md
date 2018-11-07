@@ -14,7 +14,7 @@ In order to succesfully run the code, you should have installed [ROS](http://wik
 
 ## Nodes description
 
-<strong>_gb_controller_</strong> : It performs a linear mapping of accelerations recorded by an IMU sensor to the velocity commands for a mobile robot.
+<strong>gb_controller</strong> : It performs a linear mapping of accelerations recorded by an IMU sensor to the velocity commands for a mobile robot.
 
 The mapping coefficients depend on the robot to control and they can be set from launch file.
 
