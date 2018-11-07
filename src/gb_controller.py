@@ -9,7 +9,15 @@ class GestureController(object):
     """ Gesture Controller class subscribes to the "/inertial" topic and publishes to "/cmd_vel" the velocity commands generated using wrist linear accelerations."""
     # ROS initialization 
     def init(self):
-        """  Initializer function"""
+        """  Initializer function
+             @param update_rate Node frequency (Hz)
+             @param linear_coefficient Mapping coefficient for linear velocity
+             @param angular_coefficient Mapping coefficient for angular velocity
+             @param last_acc Stores the last acceleration received by the node
+             @param last_time Time instant in which the last acceleration message arrived
+             @param pub_twist Velocity commands publisher
+             @parma pub_mode Control modality publisher
+        """
 
         self.update_rate = 10   """ Node frquency (Hz)"""
 
@@ -28,7 +36,7 @@ class GestureController(object):
 
 
     def callback_continuos_control(self, data):
-        """Calback manager"""
+        """Callback manager"""
         self.last_acc[0] = data.linear_acceleration.x
         self.last_acc[1] = data.linear_acceleration.y
         self.last_acc[2] = data.linear_acceleration.z
