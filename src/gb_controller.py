@@ -10,8 +10,7 @@ class GestureController(object):
     """
     # ROS initialization 
     def init(self):
-        """  Initializer
-
+        """  Initializer function
         """
 
         self.update_rate = 10   """ Node frquency (Hz)"""
