@@ -6,12 +6,10 @@ from std_msgs.msg import UInt16
 
 
 class GestureController(object):
-    """ Gesture Controller class subscribes to the "/inertial" topic and publishes to "/cmd_vel" the velocity commands generated using wrist linear accelerations.
-    """
+    """ Gesture Controller class subscribes to the "/inertial" topic and publishes to "/cmd_vel" the velocity commands generated using wrist linear accelerations."""
     # ROS initialization 
     def init(self):
-        """  Initializer function
-        """
+        """  Initializer function"""
 
         self.update_rate = 10   """ Node frquency (Hz)"""
 
@@ -30,13 +28,14 @@ class GestureController(object):
 
 
     def callback_continuos_control(self, data):
+        """Calback manager"""
         self.last_acc[0] = data.linear_acceleration.x
         self.last_acc[1] = data.linear_acceleration.y
         self.last_acc[2] = data.linear_acceleration.z
         self.last_time = data.header.stamp.secs
 
-    """ Controller starter"""
     def run(self):
+        """Controller starter"""
         self.init()
         r = rospy.Rate(self.update_rate)
         while True:
@@ -55,16 +54,17 @@ class GestureController(object):
                 break
 
     def acceleration_reset(self):
+        """Reset velocities to zero"""
         self.last_acc = [0,0,0]
 
-    """Shutdown handler"""
     def reset(self):
+        """Shutdown handler"""
         print "\n"
         rospy.loginfo("RESETTING VELOCITY COMMANDS ON SHUTDOWN")
         self.update()
 
-    """Mapping of acceleration to robot angular and linear velocities"""
     def update(self):
+        """Mapping of acceleration to robot angular and linear velocities"""
         if rospy.is_shutdown():
             return
         twist = Twist()
