@@ -10,16 +10,17 @@ class GestureController(object):
     # ROS initialization 
     def init(self):
         """  Initializer function
-             @param update_rate Node frequency (Hz)
-             @param linear_coefficient Mapping coefficient for linear velocity
-             @param angular_coefficient Mapping coefficient for angular velocity
-             @param last_acc Stores the last acceleration received by the node
-             @param last_time Time instant in which the last acceleration message arrived
-             @param pub_twist Velocity commands publisher
-             @parma pub_mode Control modality publisher
+             
+             @var linear_coefficient Mapping coefficient for linear velocity
+             @var angular_coefficient Mapping coefficient for angular velocity
+             @var last_acc Stores the last acceleration received by the node
+             @var last_time Time instant in which the last acceleration message arrived
+             @var pub_twist Velocity commands publisher
+             @var pub_mode Control modality publisher
         """
 
-        self.update_rate = 10   """ Node frquency (Hz)"""
+        self.update_rate = 10   
+        """ @var update_rate Node frequency (Hz) """
 
         """Coefficients to map linear accelerations into linear and angular velocities"""
         self.linear_coefficent = rospy.get_param ('linear_coefficient', 0.05)
