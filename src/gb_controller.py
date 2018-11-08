@@ -11,29 +11,23 @@ class GestureController(object):
     
 
     def init(self):
-        """  Initializer function
-             
-             @var linear_coefficient Mapping coefficient for linear velocity
-             @var angular_coefficient Mapping coefficient for angular velocity
-             @var last_acc Stores the last acceleration received by the node
-             @var last_time Time instant in which the last acceleration message arrived
-             @var pub_twist Velocity commands publisher
-             @var pub_mode Control modality publisher
-        """
-        ## inside update_rate Node frequency (Hz)
+        """  Initializer function"""
+        ## Node frequency (Hz)
         self.update_rate = 10   
-        """ @var update_rate Node frequency (Hz) """
 
-        """Coefficients to map linear accelerations into linear and angular velocities"""
+        ## Mapping coefficient for linear velocity
         self.linear_coefficent = rospy.get_param ('linear_coefficient', 0.05)
+        ## Mapping coefficient for angular velocity
         self.angular_coefficent = rospy.get_param ('angular_coefficient', 0.05)
 
-        """Last acelleration data received"""
+        ## Stores the last acceleration received by the node
         self.last_acc = [0,0,0]
+        ## Time instant in which the last acceleration message arrived
         self.last_time = 0
 
-        """Setup publishers & subscriber"""
+        ## Velocity commands publisher
         self.pub_twist = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+        ## Control modality publisher
         self.pub_mode = rospy.Publisher('/cmd_mode', UInt16, queue_size=1)
         rospy.Subscriber('/inertial', Imu, self.callback_continuos_control)
 
