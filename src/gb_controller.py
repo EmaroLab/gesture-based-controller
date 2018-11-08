@@ -4,13 +4,13 @@ from geometry_msgs.msg import Pose, Twist
 from sensor_msgs.msg import Imu
 from std_msgs.msg import UInt16
 
-
+## Gesture Controller class subscribes to the "/inertial" topic and publishes to "/cmd_vel" the velocity commands generated using wrist linear accelerations.
 class GestureController(object):
-    ## Gesture Controller class subscribes to the "/inertial" topic and publishes to "/cmd_vel" the velocity commands generated using wrist linear accelerations.
-    
+       
     # ROS initialization 
+    ## Initializer function
     def init(self):
-        """  Initializer function"""
+        
         ## Node frequency (Hz) 
         self.update_rate = 10   
 
@@ -30,16 +30,15 @@ class GestureController(object):
         self.pub_mode = rospy.Publisher('/cmd_mode', UInt16, queue_size=1)
         rospy.Subscriber('/inertial', Imu, self.callback_continuos_control)
 
-    
-    def callback_continuos_control(self, data):
-        """Callback manager"""
+    ## Callback manager
+    def callback_continuos_control(self,data):
         self.last_acc[0] = data.linear_acceleration.x
         self.last_acc[1] = data.linear_acceleration.y
         self.last_acc[2] = data.linear_acceleration.z
         self.last_time = data.header.stamp.secs
 
+    ## Controller starter
     def run(self):
-        """Controller starter"""
         self.init()
         r = rospy.Rate(self.update_rate)
         while True:
@@ -57,18 +56,19 @@ class GestureController(object):
                 self.reset()
                 break
 
+    ## Reset velocities to zero
     def acceleration_reset(self):
-        """Reset velocities to zero"""
+        
         self.last_acc = [0,0,0]
-
+    
+    ## Shutdown handler
     def reset(self):
-        """Shutdown handler"""
         print "\n"
         rospy.loginfo("RESETTING VELOCITY COMMANDS ON SHUTDOWN")
         self.update()
 
+    ## Mapping of acceleration to robot angular and linear velocities
     def update(self):
-        """Mapping of acceleration to robot angular and linear velocities"""
         if rospy.is_shutdown():
             return
         twist = Twist()
