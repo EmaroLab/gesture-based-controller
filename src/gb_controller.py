@@ -8,6 +8,8 @@ from std_msgs.msg import UInt16
 class GestureController(object):
        
     ## Initializer function
+    #
+    #  @param self The object pointer
     def init(self):
         ## Node frequency (Hz) 
         self.update_rate = 10   
@@ -39,6 +41,8 @@ class GestureController(object):
         self.last_time = data.header.stamp.secs
 
     ## Controller starter
+    #
+    #  @param self The object pointer
     def run(self):
         self.init()
         r = rospy.Rate(self.update_rate)
@@ -58,17 +62,23 @@ class GestureController(object):
                 break
 
     ## Reset velocities to zero
+    #
+    #  @param self The object pointer
     def acceleration_reset(self):
         
         self.last_acc = [0,0,0]
     
     ## Shutdown handler
+    #
+    #  @param self The object pointer
     def reset(self):
         print "\n"
         rospy.loginfo("RESETTING VELOCITY COMMANDS ON SHUTDOWN")
         self.update()
 
     ## Mapping of acceleration to robot angular and linear velocities
+    #
+    #  @param self The object pointer
     def update(self):
         if rospy.is_shutdown():
             return
