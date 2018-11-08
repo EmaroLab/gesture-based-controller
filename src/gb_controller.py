@@ -10,7 +10,7 @@ class GestureController(object):
     ## Initializer function
     #
     #  @param self The object pointer
-    def init(self):
+    def __init__(self):
         ## Node frequency (Hz) 
         self.update_rate = 10   
 
