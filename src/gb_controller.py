@@ -18,7 +18,7 @@ class GestureController(object):
              @var pub_twist Velocity commands publisher
              @var pub_mode Control modality publisher
         """
-
+        ##  update_rate Node frequency (Hz)
         self.update_rate = 10   
         """ @var update_rate Node frequency (Hz) """
 
