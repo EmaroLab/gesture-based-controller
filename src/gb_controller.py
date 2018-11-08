@@ -8,6 +8,8 @@ from std_msgs.msg import UInt16
 class GestureController(object):
     """ Gesture Controller class subscribes to the "/inertial" topic and publishes to "/cmd_vel" the velocity commands generated using wrist linear accelerations."""
     # ROS initialization 
+    ## @var update_rate Node frequency (Hz)
+
     def init(self):
         """  Initializer function
              
@@ -18,7 +20,7 @@ class GestureController(object):
              @var pub_twist Velocity commands publisher
              @var pub_mode Control modality publisher
         """
-        ##  update_rate Node frequency (Hz)
+        ## inside update_rate Node frequency (Hz)
         self.update_rate = 10   
         """ @var update_rate Node frequency (Hz) """
 
@@ -35,8 +37,7 @@ class GestureController(object):
         self.pub_mode = rospy.Publisher('/cmd_mode', UInt16, queue_size=1)
         rospy.Subscriber('/inertial', Imu, self.callback_continuos_control)
 
-    ## @var update_rate Node frequency (Hz)
-
+    
     def callback_continuos_control(self, data):
         """Callback manager"""
         self.last_acc[0] = data.linear_acceleration.x
