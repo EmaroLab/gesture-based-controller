@@ -6,13 +6,12 @@ from std_msgs.msg import UInt16
 
 
 class GestureController(object):
-    """ Gesture Controller class subscribes to the "/inertial" topic and publishes to "/cmd_vel" the velocity commands generated using wrist linear accelerations."""
-    # ROS initialization 
+    ## Gesture Controller class subscribes to the "/inertial" topic and publishes to "/cmd_vel" the velocity commands generated using wrist linear accelerations.
     
-
+    # ROS initialization 
     def init(self):
         """  Initializer function"""
-        ## Node frequency (Hz)
+        ## Node frequency (Hz) 
         self.update_rate = 10   
 
         ## Mapping coefficient for linear velocity
