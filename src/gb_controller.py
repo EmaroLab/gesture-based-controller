@@ -35,8 +35,7 @@ class GestureController(object):
         self.pub_mode = rospy.Publisher('/cmd_mode', UInt16, queue_size=1)
         rospy.Subscriber('/inertial', Imu, self.callback_continuos_control)
 
-    ##  update_rate Node frequency (Hz)
-    self.update_rate = 10  
+    ## @var update_rate Node frequency (Hz)
 
     def callback_continuos_control(self, data):
         """Callback manager"""
