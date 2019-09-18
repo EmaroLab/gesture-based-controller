@@ -2,7 +2,7 @@
 
   <!-- Flag to decide which method must be applied -->
 
-  <param name = "nonlinear" value="0" />
+  <param name = "nonlinear" value="1" />
 
   <!-- Coefficients to map linear accelerations into linear and angular velocities -->
   <!-- husqvarna = [0.05,0.05]| miro = [50, 0.25] -->
@@ -12,13 +12,15 @@
 
   <!-- Coefficients used to perform nonlinear mapping -->
 
-  <param name = "halt_threshold" value="0.01" />
+  <param name = "halt_threshold" value="1" />
+  <param name = "x_acceleration_saturation" value="8" />
+  <param name = "y_acceleration_saturation" value="6" />
 
   <arg name="inertial_sub_topic"  default="/inertial"/>
   <arg name="mode_pub_topic"  default="/cmd_mode"/>
   <arg name="vel_pub_topic"  default="/cmd_vel"/>
 
-  <node pkg="gesture_based_controller" type="gb_controller.py" name="gb_controller" output="screen">
+  <node pkg="gesture_based_controller" type="gb_controller.py" name="gb_controller" output="screen" required="true">
     <remap from="/inertial" to="$(arg inertial_sub_topic)"/>
     <remap from="/cmd_mode" to="$(arg mode_pub_topic)"/>
     <remap from="/cmd_vel" to="$(arg vel_pub_topic)"/>
