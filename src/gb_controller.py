@@ -12,12 +12,18 @@ class GestureController(object):
     #  @param self The object pointer
     def __init__(self):
         ## Node frequency (Hz) 
-        self.update_rate = 10   
+        self.update_rate = 10
+
+        ## Flag for the method to apply (nonlinear: 1, linear: any other value)
+        self.nonlinear_flag = rospy.get_param('nonlinear', 0)
 
         ## Mapping coefficient for linear velocity
         self.linear_coefficent = rospy.get_param ('linear_coefficient', 0.05)
         ## Mapping coefficient for angular velocity
         self.angular_coefficent = rospy.get_param ('angular_coefficient', 0.05)
+
+        ## Halt threshold: if the linear velocity is less than this value, the mower doesn't move
+        self.halt_threshold = rospy.get_param ('halt_threshold', 0)
 
         ## Stores the last acceleration received by the node
         self.last_acc = [0,0,0]
@@ -76,6 +82,18 @@ class GestureController(object):
         rospy.loginfo("RESETTING VELOCITY COMMANDS ON SHUTDOWN")
         self.update()
 
+    ## Nonlinear mapping function for the linear velocity
+    #
+    #  @param self The object pointer
+    def v_nonlinear_mapping(self):
+        pass
+
+    ## Nonlinear mapping function for the angular velocity
+    #
+    #  @param self The object pointer
+    def w_nonlinear_mapping(self):
+        pass
+
     ## Mapping of acceleration to robot angular and linear velocities
     #
     #  @param self The object pointer
@@ -83,8 +101,15 @@ class GestureController(object):
         if rospy.is_shutdown():
             return
         twist = Twist()
-        twist.linear.x = self.last_acc[0] * self.linear_coefficent
-        twist.angular.z = self.last_acc[1] * self.angular_coefficent
+        # LINEAR METHOD
+        if self.nonlinear_flag != 1:
+            twist.linear.x = self.last_acc[0] * self.linear_coefficent
+            twist.angular.z = self.last_acc[1] * self.angular_coefficent
+        # NONLINEAR METHOD
+        else:
+            twist.linear.x = self.v_nonlinear_mapping()
+            twist.angular.z = self.w_nonlinear_mapping()
+            pass
         self.pub_twist.publish(twist)
 
 

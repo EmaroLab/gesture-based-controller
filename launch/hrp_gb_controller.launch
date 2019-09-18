@@ -1,10 +1,18 @@
 <launch>
 
-  <!--Coefficients to map linear accelerations into linear and angular velocities-->
-  <!--husqvarna = [0.05,0.05]| miro = [50, 0.25]-->
+  <!-- Flag to decide which method must be applied -->
+
+  <param name = "nonlinear" value="0" />
+
+  <!-- Coefficients to map linear accelerations into linear and angular velocities -->
+  <!-- husqvarna = [0.05,0.05]| miro = [50, 0.25] -->
   
   <param name = "linear_coefficient" value="0.05" />
   <param name = "angular_coefficient" value="0.05" />
+
+  <!-- Coefficients used to perform nonlinear mapping -->
+
+  <param name = "halt_threshold" value="0.01" />
 
   <arg name="inertial_sub_topic"  default="/inertial"/>
   <arg name="mode_pub_topic"  default="/cmd_mode"/>
