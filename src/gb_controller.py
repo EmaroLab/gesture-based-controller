@@ -75,7 +75,10 @@ class GestureController(object):
         self.last_acc[0] = data.linear_acceleration.x
         self.last_acc[1] = data.linear_acceleration.y
         self.last_acc[2] = data.linear_acceleration.z
-        self.last_time = data.header.stamp.secs
+
+        now = rospy.get_rostime()
+        self.last_time = now.secs
+        #self.last_time = data.header.stamp.secs
 
     ## Controller starter
     #
