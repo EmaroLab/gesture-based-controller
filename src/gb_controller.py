@@ -39,7 +39,7 @@ class GestureController(object):
         #  The halt threshold must be less than both values.
         #  This check if performed only if the nonlinear flag is high
         if self.nonlinear_flag == 1 and ( \
-           self.halt_threshold <= 0 or \
+           self.halt_threshold < 0 or \
            self.x_acc_saturation <= 0 or \
            self.y_acc_saturation <= 0 or \
            self.halt_threshold >= self.x_acc_saturation or \

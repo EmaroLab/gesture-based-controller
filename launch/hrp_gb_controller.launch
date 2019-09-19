@@ -16,7 +16,8 @@
   <param name = "x_acceleration_saturation" value="8" />
   <param name = "y_acceleration_saturation" value="6" />
 
-  <arg name="inertial_sub_topic"  default="/inertial"/>
+  <!-- <arg name="inertial_sub_topic"  default="/inertial"/> -->
+  <arg name="inertial_sub_topic"  default="/G_Watch_R_5567/imu_data"/>
   <arg name="mode_pub_topic"  default="/cmd_mode"/>
   <arg name="vel_pub_topic"  default="/cmd_vel"/>
 
