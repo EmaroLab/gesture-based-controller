@@ -1,16 +1,29 @@
 <launch>
 
-  <!--Coefficients to map linear accelerations into linear and angular velocities-->
-  <!--husqvarna = [0.05,0.05]| miro = [50, 0.25]-->
+  <!-- Flag to decide which method must be applied -->
+
+  <param name = "nonlinear" value="1" />
+
+  <!-- Coefficients to map linear accelerations into linear and angular velocities -->
+  <!-- husqvarna = [0.05,0.05]| miro = [50, 0.25] -->
   
   <param name = "linear_coefficient" value="0.05" />
   <param name = "angular_coefficient" value="0.05" />
 
-  <arg name="inertial_sub_topic"  default="/inertial"/>
+  <!-- Coefficients used to perform nonlinear mapping -->
+
+  <param name = "halt_threshold" value="1" />
+  <param name = "max_linear_velocity" value="0.4" />
+  <param name = "max_angular_velocity" value="0.3" />
+  <param name = "x_acceleration_saturation" value="8" />
+  <param name = "y_acceleration_saturation" value="6" />
+
+  <!-- <arg name="inertial_sub_topic"  default="/inertial"/> -->
+  <arg name="inertial_sub_topic"  default="/G_Watch_R_5567/imu_data"/>
   <arg name="mode_pub_topic"  default="/cmd_mode"/>
   <arg name="vel_pub_topic"  default="/cmd_vel"/>
 
-  <node pkg="gesture_based_controller" type="gb_controller.py" name="gb_controller" output="screen">
+  <node pkg="gesture_based_controller" type="gb_controller.py" name="gb_controller" output="screen" required="true">
     <remap from="/inertial" to="$(arg inertial_sub_topic)"/>
     <remap from="/cmd_mode" to="$(arg mode_pub_topic)"/>
     <remap from="/cmd_vel" to="$(arg vel_pub_topic)"/>
