@@ -31,6 +31,10 @@ class GestureController(object):
         ## Halt threshold: if the linear velocity is less than this value, the mower doesn't move
         self.halt_threshold = rospy.get_param ('halt_threshold', 0)
 
+        ## Maximum velocities: index 0 is the linear velocity, index 1
+        self.lin_max_velocity = rospy.get_param('max_linear_velocity', 0.4)
+        self.ang_max_velocity = rospy.get_param('max_angular_velocity', 0.3)
+
         ## Saturation values for x and y acceleration from the smartwatch
         self.x_acc_saturation = rospy.get_param ('x_acceleration_saturation', 8)
         self.y_acc_saturation = rospy.get_param ('y_acceleration_saturation', 6)
@@ -48,10 +52,9 @@ class GestureController(object):
             sys.exit(1)
 
         ## If the nonlinear flag is high, the two mapping coefficients are updated
-        #  0.4 and 0.3 are taken as the maximum linear and angular velocities possible
         if self.nonlinear_flag == 1:
-            self.linear_coefficent = 0.4 / (self.x_acc_saturation - self.halt_threshold)
-            self.angular_coefficent = 0.3 / (self.y_acc_saturation - self.halt_threshold)
+            self.linear_coefficent = self.lin_max_velocity / (self.x_acc_saturation - self.halt_threshold)
+            self.angular_coefficent = self.ang_max_velocity / (self.y_acc_saturation - self.halt_threshold)
 
         ## Stores the last acceleration received by the node
         self.last_acc = [0,0,0]
@@ -118,7 +121,7 @@ class GestureController(object):
         if abs(x_acc) < self.halt_threshold:
             return 0
         elif abs(x_acc) >= self.x_acc_saturation:
-            return 0.4 * sign(x_acc)
+            return self.lin_max_velocity * sign(x_acc)
         else:
             return self.linear_coefficent * (x_acc - self.halt_threshold * sign(x_acc))
 
@@ -130,7 +133,7 @@ class GestureController(object):
         if abs(y_acc) < self.halt_threshold:
             return 0
         elif abs(y_acc) >= self.y_acc_saturation:
-            return 0.3 * sign(y_acc)
+            return self.ang_max_velocity * sign(y_acc)
         else:
             return self.angular_coefficent * (y_acc - self.halt_threshold * sign(y_acc))
 
